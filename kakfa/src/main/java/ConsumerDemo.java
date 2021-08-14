@@ -27,7 +27,6 @@ public class ConsumerDemo {
         consumer.subscribe(Collections.singletonList(topic));
         //循环消费消息
         while (true) {
-            System.out.println("-------");
             ConsumerRecords<String, String> records =
                     consumer.poll(Duration.ofMillis(1000));
             for (ConsumerRecord<String, String> record : records) {
