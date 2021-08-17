@@ -4,7 +4,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Properties;
 
-public class ProducerDemoV2 {
+public class ProducerDemoV2InitConfig {
     public static final String brokerList = "1.116.156.79:9092,1.116.156.79:9093,1.116.156.79:9094";
     public static final String topic = "test2";
 

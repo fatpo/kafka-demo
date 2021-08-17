@@ -1,10 +1,9 @@
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.*;
 
 import java.util.Properties;
+import java.util.concurrent.Future;
 
-public class ProducerDemoV3Retry {
+public class ProducerDemoV4Async {
     public static final String brokerList = "1.116.156.79:9092,1.116.156.79:9093,1.116.156.79:9094";
     public static final String topic = "test2";
 
@@ -30,8 +29,29 @@ public class ProducerDemoV3Retry {
                 new KafkaProducer<>(properties);
         ProducerRecord<String, String> record =
                 new ProducerRecord<>(topic, "hello, Kafka!");
+        // callback方式
         try {
-            producer.send(record);
+            producer.send(record, new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata metadata, Exception exception) {
+                    if (exception != null) {
+                        exception.printStackTrace();
+                    } else {
+                        System.out.println("[send callback -1] topic: " + metadata.topic() + ", partition: " +
+                                metadata.partition() + ", offset: " + metadata.offset());
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // future方式
+        try {
+            Future<RecordMetadata> future = producer.send(record);
+            RecordMetadata metadata = future.get();
+            System.out.println("[send callback -2] topic: " + metadata.topic() + ", partition: " +
+                    metadata.partition() + ", offset: " + metadata.offset());
         } catch (Exception e) {
             e.printStackTrace();
         }
