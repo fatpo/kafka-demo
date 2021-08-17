@@ -4,8 +4,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Properties;
 
-public class ProducerDemoV2 {
-    public static final String brokerList = "1.116.156.79:9092,1.116.156.79:9093,1.116.156.79:9094";
+public class ProducerDemoV3Retry {
+    public static final String brokerList = "1.116.156.79:9092";
     public static final String topic = "test2";
 
     public static Properties initConfig() {
@@ -18,6 +18,7 @@ public class ProducerDemoV2 {
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 "org.apache.kafka.common.serialization.StringSerializer");
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, "producer.client.id.demo");
+        properties.put(ProducerConfig.RETRIES_CONFIG, 10);
         return properties;
     }
 

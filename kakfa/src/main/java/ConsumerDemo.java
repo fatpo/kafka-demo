@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Properties;
 
 public class ConsumerDemo {
-    public static final String brokerList = "1.116.156.79:9092";
+    public static final String brokerList = "1.116.156.79:9092,1.116.156.79:9093,1.116.156.79:9094";
     public static final String topic = "test2";
     public static final String groupId = "group.demo";
 
