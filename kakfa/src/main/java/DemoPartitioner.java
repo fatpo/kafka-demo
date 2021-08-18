@@ -17,7 +17,9 @@ public class DemoPartitioner implements Partitioner {
 
         // 当没有key时，是没办法分区的，要依赖业务定制
         if (keyBytes == null) {
-            return counter.getAndIncrement() % numPartitions;
+            int p = counter.getAndIncrement() % numPartitions;
+            System.out.println("分区到：" + p);
+            return p;
         }
         return Utils.toPositive(Utils.murmur2(keyBytes)) % numPartitions;
     }
