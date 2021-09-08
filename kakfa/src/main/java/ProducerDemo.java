@@ -19,13 +19,19 @@ public class ProducerDemo {
         System.out.println("send a message: hello, Kafka!");
         KafkaProducer<String, String> producer =
                 new KafkaProducer<>(properties);
-        ProducerRecord<String, String> record =
-                new ProducerRecord<>(topic, "hello, Kafka!");
-        try {
-            producer.send(record);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        long time = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            ProducerRecord<String, String> record =
+                    new ProducerRecord<>(topic, time + "hello, Kafka! " + i);
+            try {
+                System.out.println(record);
+                producer.send(record);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         producer.close();
     }
 }
