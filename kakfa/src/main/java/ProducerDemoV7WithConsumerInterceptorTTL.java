@@ -22,7 +22,7 @@ public class ProducerDemoV7WithConsumerInterceptorTTL {
                 new KafkaProducer<>(properties);
 
         ProducerRecord<String, String> record1 =
-                new ProducerRecord<>(topic, 0, System.currentTimeMillis() - 10 * 1000, null, "record 1");
+                new ProducerRecord<>(topic, 0, System.currentTimeMillis() - 11 * 1000, null, "record 1");
         producer.send(record1).get();
 
         ProducerRecord<String, String> record2 =
@@ -30,7 +30,7 @@ public class ProducerDemoV7WithConsumerInterceptorTTL {
         producer.send(record2).get();
 
         ProducerRecord<String, String> record3 =
-                new ProducerRecord<>(topic, 0, System.currentTimeMillis() - 10 * 1000, null, "record 3");
+                new ProducerRecord<>(topic, 0, System.currentTimeMillis() - 11 * 1000, null, "record 3");
         producer.send(record3).get();
 
 

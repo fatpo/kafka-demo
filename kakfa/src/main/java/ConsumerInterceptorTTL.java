@@ -4,6 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +14,14 @@ public class ConsumerInterceptorTTL implements ConsumerInterceptor<String, Strin
 
     @Override
     public ConsumerRecords<String, String> onConsume(ConsumerRecords<String, String> records) {
+        System.out.println("onConsume...before: " + records);
 
         long now = System.currentTimeMillis();
         Map<TopicPartition, List<ConsumerRecord<String, String>>> newRecords = new HashMap<>();
 
         for (TopicPartition tp : records.partitions()) {
             List<ConsumerRecord<String, String>> tpRecords = records.records(tp);
-            List<ConsumerRecord<String, String>> newTpRecords = records.records(tp);
+            List<ConsumerRecord<String, String>> newTpRecords = new ArrayList<>(8);
             for (ConsumerRecord<String, String> r : tpRecords) {
                 if (now - r.timestamp() < EXPIRE_INTERVAL) {
                     newTpRecords.add(r);
@@ -29,7 +31,7 @@ public class ConsumerInterceptorTTL implements ConsumerInterceptor<String, Strin
                 newRecords.put(tp, newTpRecords);
             }
         }
-
+        System.out.println("onConsume...after: " + newRecords);
         return new ConsumerRecords<>(newRecords);
     }
 
